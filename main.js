@@ -253,3 +253,24 @@ const words = [
   "yawn",
   "zinc",
 ];
+
+const textContainer = document.getElementById("container");
+const timerElement = document.getElementById("timer");
+const tryAgainBtn = document.getElementById("try-again");
+const finalScore = document.getElementById("final-score");
+
+function myFunc(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+function generateText() {
+  const funcWords = myFunc([...words]);
+  return funcWords.join(" ");
+}
+
+let longText = generateText();
+textContainer.textContent = longText;
