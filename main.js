@@ -263,7 +263,7 @@ let totalTyped = "";
 let currentIndex = 0;
 let errors = 0;
 
-let timeLeft = 6;
+let timeLeft = 60;
 let timerInterval;
 let typingStarted = false;
 
@@ -299,9 +299,17 @@ function startTimer() {
 
 function endTest() {
   timerElement.textContent = "Time is up!";
-  finalScore.textContent = "Final WMP: ";
+  finalScore.textContent = `Final WMP: ${calcWPM()}`;
   textContainer.style.display = "none";
   tryAgainBtn.style.display = "block";
+  calcWPM();
+}
+
+function calcWPM() {
+  const wordsTyped = totalTyped.trim().split(/\s+/).length;
+  const baseWPM = Math.round((wordsTyped / 6) * 60);
+  const adjustedWPM = Math.max(baseWPM - errors, 0);
+  return adjustedWPM;
 }
 
 document.addEventListener("keydown", (e) => {
