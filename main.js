@@ -259,6 +259,10 @@ const timerElement = document.getElementById("timer");
 const tryAgainBtn = document.getElementById("try-again");
 const finalScore = document.getElementById("final-score");
 
+let totalTyped = "";
+let currentIndex = 0;
+let errors = 0;
+
 function myFunc(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -274,3 +278,41 @@ function generateText() {
 
 let longText = generateText();
 textContainer.textContent = longText;
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Backspace") {
+    if (totalTyped.length > 0) {
+      currentIndex = Math.max(currentIndex - 1, 0);
+      totalTyped = totalTyped.slice(0, -1);
+    }
+  } else if (e.key.length === 1 && !e.ctrlKey && !e.metaKey) {
+    totalTyped += e.key;
+    currentIndex++;
+  }
+
+  const textArray = longText.split("");
+  textContainer.innerText = "";
+
+  errors = 0;
+
+  for (let i = 0; i < textArray.length; i++) {
+    const span = document.createElement("span");
+
+    if (i < totalTyped.length) {
+      if (totalTyped[i] === textArray[i]) {
+        span.classList.add("correct");
+      } else {
+        span.classList.add("error");
+        errors++;
+      }
+    }
+
+    span.textContent = textArray[i];
+    textContainer.appendChild(span);
+  }
+
+  if (totalTyped.length >= 20) {
+    const scroll = (totalTyped.length - 20) * 14;
+    textContainer.scrollLeft = scroll;
+  }
+});

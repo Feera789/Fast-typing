@@ -46,9 +46,14 @@ button {
   display: none;
 }
 
-.correct {
-  color: rgb(106, 169, 106);
+span {
+  min-width: 14px;
 }
+
+.correct {
+  color: rgb(82, 133, 82);
+}
+
 .error {
   color: rgb(93, 34, 34);
 }
