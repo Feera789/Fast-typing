@@ -263,6 +263,10 @@ let totalTyped = "";
 let currentIndex = 0;
 let errors = 0;
 
+let timeLeft = 6;
+let timerInterval;
+let typingStarted = false;
+
 function myFunc(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -279,7 +283,30 @@ function generateText() {
 let longText = generateText();
 textContainer.textContent = longText;
 
+function startTimer() {
+  if (!typingStarted) {
+    typingStarted = true;
+    timerInterval = setInterval(() => {
+      timeLeft--;
+      timerElement.textContent = `Time left: ${timeLeft}s`;
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        endTest();
+      }
+    }, 1000);
+  }
+}
+
+function endTest() {
+  timerElement.textContent = "Time is up!";
+  finalScore.textContent = "Final WMP: ";
+  textContainer.style.display = "none";
+  tryAgainBtn.style.display = "block";
+}
+
 document.addEventListener("keydown", (e) => {
+  startTimer();
+
   if (e.key === "Backspace") {
     if (totalTyped.length > 0) {
       currentIndex = Math.max(currentIndex - 1, 0);
