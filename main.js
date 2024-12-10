@@ -351,3 +351,39 @@ document.addEventListener("keydown", (e) => {
     textContainer.scrollLeft = scroll;
   }
 });
+
+function reset() {
+  clearInterval(timerInterval);
+  timeLeft = 60;
+  timerElement.textContent = `Time left: ${timeLeft}s`;
+  finalScore.textContent = "";
+  textContainer.style.display = "block";
+  tryAgainBtn.style.display = "none";
+  totalTyped = "";
+  typingStarted = false;
+  currentIndex = 0;
+  errors = 0;
+  textContainer.scrollLeft = 0;
+  longText = generateText();
+  init();
+}
+
+function init() {
+  if (isMobileDevice()) {
+    showMobileMessage();
+  } else {
+    textContainer.innerText = longText;
+    timerElement.textContent = `Time left: ${timeLeft}s`;
+  }
+}
+
+tryAgainBtn.addEventListener("click", reset);
+
+function isMobileDevice() {
+  return /Mobi|Android/i.test(navigator.userAgent) || window.innerWidth < 800;
+}
+
+function showMobileMessage() {
+  textContainer.textContent =
+    "This tying test is designed for desktop use only!";
+}
